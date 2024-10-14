@@ -15,6 +15,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.1.1",
     "elysia": "^1.1.20"
   }
 }
