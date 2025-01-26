@@ -1,5 +1,8 @@
 import Elysia from "elysia";
+import { config } from "dotenv";
 import cors from "@elysiajs/cors";
+
+config(); // Carrega as variáveis de ambiente
 
 const app = new Elysia()
   .use(cors())
