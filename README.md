@@ -13,11 +13,7 @@ Este projeto consiste em uma API desenvolvida utilizando Elysia, TypeScript e Su
 3. **Envio de E-mails**: Automaticamente enviar e-mails de confirmação para usuários finais e notificar especialistas responsáveis assim que uma nova solicitação é recebida. Isso melhora a comunicação direta com o usuário e mantém os especialistas informados.
 
 4. **Autenticação e Segurança**: Implementar a autenticação através de API Keys para assegurar que apenas clientes autorizados possam acessar os serviços da API, prevenindo inserções ou consultas indevidas no banco de dados.
-
-5. **Rotatividade de Chaves e Segurança Adicional**: Assegurar que as API Keys utilizadas sejam geridas de forma segura, com possibilidade de rotatividade e expiração, para aumentar a segurança contra acessos não autorizados.
-
-6. **Resiliência e Monitoramento**: Detectar e lidar com requisições maliciosas ou não autorizadas, garantindo que o sistema permaneça seguro e confiável.
-
+   
 ## Tecnologias Utilizadas
 
 - **Elysia**: Framework web para Node.js usado para criar a API, proporcionando um ambiente rápido e eficiente.
@@ -34,7 +30,7 @@ Este projeto consiste em uma API desenvolvida utilizando Elysia, TypeScript e Su
 
 - **Automatização e Eficiência**: As operações automatizadas, como envio de e-mails e gestão de dados, facilitam a operação do sistema e melhoram a experiência do cliente.
   
-- **Segurança Avançada**: Com a implementação de API Keys e outros mecanismos de segurança, o sistema garante que apenas usuários autorizados tenham acesso, minimizando riscos de segurança.
+- **Segurança Avançada**: Com a implementação de API Keys, o sistema garante que apenas usuários autorizados tenham acesso, minimizando riscos de segurança.
 
 - **Escalabilidade**: O uso do Supabase e Elysia permite que o sistema facilmente escale suas operações conforme o volume de dados e número de usuários cresce.
 
@@ -60,4 +56,5 @@ bun install
 bun run dev
 ```
 4. **Testar a API** : Use uma ferramenta como Insomnia ou Postman para testar a API.
+
 Este projeto traz uma solução eficaz e segura para gerenciamento de solicitações recebidas via formulários, garantindo que as informações dos usuários sejam processadas de maneira eficiente, segura e automatizada.
