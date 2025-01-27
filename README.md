@@ -55,6 +55,9 @@ bun install
 ```bash
 bun run dev
 ```
-4. **Testar a API** : Use uma ferramenta como Insomnia ou Postman para testar a API.
+4. **Testar a API** : Use uma ferramenta como Insomnia ou Postman para testar a API, será necessario adicinar a chave de api no Headers da consulta.
+```bash
+'x-api-key': '7b86595c-6c4a-48b6-a407-edf2a15bdf63'
+```
 
 Este projeto traz uma solução eficaz e segura para gerenciamento de solicitações recebidas via formulários, garantindo que as informações dos usuários sejam processadas de maneira eficiente, segura e automatizada.
