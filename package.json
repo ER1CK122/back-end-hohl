@@ -9,7 +9,8 @@
     "test": "bun test"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.11"
+    "@types/bun": "^1.1.11",
+    "@types/nodemailer": "^6.4.17"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
