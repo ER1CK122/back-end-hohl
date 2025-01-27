@@ -9,7 +9,7 @@ config(); // Carrega as variáveis de ambiente
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 
 export { supabase };
-
+//TODO: Criar middleware para validar a api key
 const app = new Elysia()
   .use(cors())
   .post('/forms', handleFormSubmission)

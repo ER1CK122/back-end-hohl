@@ -7,15 +7,11 @@ export const handleFormSubmission = async ({ body }: Context<{ body: FormData }>
   try {
     const data = body;
 
-    //TODO: ajustar autenticação para que somente possa gravar no supabase caso venha uma requisição com um token válido
-
     // Inserir os dados no supabase
     const { error } = await supabase.from('forms').insert(data);
 
     if (error) throw error;
 
-
-    //TODO: Ajustar o email do cliente para deixar mais bonito
     // Envia emails
     await sendEmail(data.email, 'Confirmação de envio', 'Obrigado por entrar em contato conosco!');
     await sendEmail('ercknunes53@gmail.com', 'Novo Formulário de Cliente', `Nome: ${data.name}\nEmail: ${data.email}\nTelefone: ${data.phone}\nMensagem: ${data.mensage}`);
