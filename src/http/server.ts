@@ -1,7 +1,8 @@
 import Elysia from "elysia";
 import { config } from "dotenv";
-import { createClient } from "@supabase/supabase-js";
 import cors from "@elysiajs/cors";
+import { createClient } from "@supabase/supabase-js";
+import { handleFormSubmission } from "../controllers/formController";
 
 config(); // Carrega as variáveis de ambiente
 
@@ -11,11 +12,7 @@ export { supabase };
 
 const app = new Elysia()
   .use(cors())
-  .get('/home', ()=> {
-    return {
-      data: "Bora trabalhar!!!"
-    }
-  })
+  .post('/forms', handleFormSubmission)
   .listen(3333, () => {
     console.log("Está rodando...");
   });
