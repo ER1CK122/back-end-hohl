@@ -1,10 +1,17 @@
 import { Elysia } from 'elysia';
 import { supabase } from '../http/server';
 
+// Lista de rotas públicas que não precisam de autenticação
+const PUBLIC_ROUTES = ['/health'];
+
 export const authenticationApiKey = new Elysia()
   .onRequest(async ({ request, set }) => {
-    // Ignora a verificação para rotas não protegidas
-    if (request.url.endsWith('/')) return;
+    // Verifica se a rota atual está na lista de rotas públicas
+    const isPublicRoute = PUBLIC_ROUTES.some(route => 
+      request.url.endsWith(route)
+    );
+
+    if (isPublicRoute) return;
 
     try {   
       const apiKey = request.headers.get('x-api-key');

@@ -100,7 +100,9 @@ bun run start
 
 ## 📡 API Endpoints
 
-### Health Check
+### Rotas Públicas
+
+#### Health Check
 ```http
 GET /health
 
@@ -134,7 +136,10 @@ Response 503 (application/json):
 }
 ```
 
-### Enviar Formulário
+### Rotas Protegidas
+> Todas as rotas protegidas requerem autenticação via API Key no header da requisição.
+
+#### Enviar Formulário
 ```http
 POST /api/forms
 
@@ -147,6 +152,16 @@ Body:
   "email": "string",
   "phone": "string",
   "mensage": "string"
+}
+
+Response 200 (application/json):
+{
+  "success": "Formulário enviado com sucesso!"
+}
+
+Response 401 (application/json):
+{
+  "error": "API Key não fornecida"
 }
 ```
 
