@@ -106,10 +106,7 @@ GET /health
 
 Response:
 {
-  "status": "healthy",
-  "timestamp": "2024-03-14T12:00:00.000Z",
-  "uptime": 123.45,
-  "environment": "production"
+  "status": "ok"
 }
 ```
 
