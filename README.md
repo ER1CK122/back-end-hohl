@@ -80,12 +80,12 @@ bun run dev
 
 ```env
 # Supabase - Configurações do banco de dados
-SUPABASE_URL="sua_url_supabase"
-SUPABASE_KEY="sua_chave_supabase"
+SUPABASE_URL="https://vveciefndmmumrjrmcjx.supabase.co"
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2ZWNpZWZuZG1tdW1yanJtY2p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc5MzExNDgsImV4cCI6MjA1MzUwNzE0OH0.OQN-uArON1WdfCTg0oWKJFXBuKtb5nXDvbjfBJnYCw8
 
 # Email - Configurações SMTP
-EMAIL_USER="seu_email"
-EMAIL_PASSWORD="sua_senha_app"
+EMAIL_USER=e24741662@gmail.com
+EMAIL_PASSWORD=fpsevfuuohqqnlqh
 
 # API - Configurações do servidor
 PORT=3333
