@@ -1,63 +1,175 @@
-# Bem vindo ao servidor da Contabilidade Hohl
+# API de Gerenciamento de Formulários - Contabilidade Hohl
 
-## Descrição Geral
+<div align="center">
 
-Este projeto consiste em uma API desenvolvida utilizando Elysia, TypeScript e Supabase, com o objetivo de receber dados de formulários submetidos por usuários e geri-los eficientemente. A API recebe informações como e-mail, nome, telefone e mensagem, garantindo que essas informações sejam manipuladas de forma segura e organizada.
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Bun](https://img.shields.io/badge/Bun-%23000000.svg?style=for-the-badge&logo=bun&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+[![Railway](https://img.shields.io/badge/Railway-%23000000.svg?style=for-the-badge&logo=railway&logoColor=white)](https://railway.app/)
 
-## Objetivos do Projeto
+</div>
 
-1. **Coleta de Dados**: Receber dados enviados por usuários através de uma requisição POST, contendo informações essenciais como e-mail, nome, telefone e mensagem.
+## 📋 Sumário
+- [Descrição](#-descrição)
+- [Funcionalidades](#-funcionalidades)
+- [Tecnologias](#-tecnologias)
+- [Arquitetura](#-arquitetura)
+- [Instalação](#-instalação)
+- [Uso](#-uso)
+- [API Endpoints](#-api-endpoints)
+- [Deploy](#-deploy)
+- [Contribuição](#-contribuição)
+- [Licença](#-licença)
 
-2. **Armazenamento de Dados**: Utilizar o Supabase como solução de banco de dados para armazenar as informações recebidas de forma segura e persistente. Isso facilita o acesso e manipulação futuros para análises ou relatórios.
+## 📝 Descrição
 
-3. **Envio de E-mails**: Automaticamente enviar e-mails de confirmação para usuários finais e notificar especialistas responsáveis assim que uma nova solicitação é recebida. Isso melhora a comunicação direta com o usuário e mantém os especialistas informados.
+API REST desenvolvida com Elysia.js e TypeScript para gerenciamento eficiente de formulários de contato. Integrada com Supabase para persistência de dados e sistema de notificações por email.
 
-4. **Autenticação e Segurança**: Implementar a autenticação através de API Keys para assegurar que apenas clientes autorizados possam acessar os serviços da API, prevenindo inserções ou consultas indevidas no banco de dados.
-   
-## Tecnologias Utilizadas
+## ✨ Funcionalidades
 
-- **Elysia**: Framework web para Node.js usado para criar a API, proporcionando um ambiente rápido e eficiente.
+- ✅ Autenticação via API Key
+- ✅ Validação de dados de entrada
+- ✅ Persistência no Supabase
+- ✅ Notificações por email automáticas
+- ✅ Rate limiting
+- ✅ Logs estruturados
+- ✅ Healthcheck endpoint
 
-- **TypeScript**: Adotada para assegurar tipagem estática, reduzindo erros durante o desenvolvimento e melhorando a manutenção do código.
+## 🚀 Tecnologias
 
-- **Supabase**: Um serviço de banco de dados hospedado que fornece armazenamento e consultas eficientes, permitindo o uso de autenticação e gerenciamento de dados de forma simplificada.
+- **Runtime:** [Bun.js](https://bun.sh/)
+- **Framework:** [Elysia.js](https://elysiajs.com/)
+- **Banco de Dados:** [Supabase](https://supabase.com/)
+- **Email:** [Nodemailer](https://nodemailer.com/)
+- **Deploy:** [Railway](https://railway.app/)
 
-- **Nodemailer**: Biblioteca para manipulação de e-mails, utilizada para enviar notificações automáticas aos usuários e especialistas.
+## 🏗 Arquitetura
 
-- **UUID**: Utilizado para gerar identificadores únicos para as chaves de API.
-
-## Benefícios
-
-- **Automatização e Eficiência**: As operações automatizadas, como envio de e-mails e gestão de dados, facilitam a operação do sistema e melhoram a experiência do cliente.
-  
-- **Segurança Avançada**: Com a implementação de API Keys, o sistema garante que apenas usuários autorizados tenham acesso, minimizando riscos de segurança.
-
-- **Escalabilidade**: O uso do Supabase e Elysia permite que o sistema facilmente escale suas operações conforme o volume de dados e número de usuários cresce.
-
-## Configuração de Variáveis de Ambiente
-
-Para assegurar que todas as funcionalidades do sistema operem corretamente, é necessário configurar variáveis de ambiente que armazenam chaves e credenciais sensíveis. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
-
-```plaintext
-SUPABASE_URL="https://vveciefndmmumrjrmcjx.supabase.co"
-SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2ZWNpZWZuZG1tdW1yanJtY2p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc5MzExNDgsImV4cCI6MjA1MzUwNzE0OH0.OQN-uArON1WdfCTg0oWKJFXBuKtb5nXDvbjfBJnYCw8
-EMAIL_USER=e24741662@gmail.com
-EMAIL_PASSWORD=fpsevfuuohqqnlqh
+```
+src/
+├── controllers/     # Controladores da aplicação
+├── middleware/      # Middlewares (auth, rate limit)
+├── types/          # Definições de tipos TypeScript
+├── utils/          # Utilitários (email, logger)
+└── http/           # Configuração do servidor e rotas
 ```
 
-## Instruções de Inicialização
-1. **Instalar Dependências** : Use o `Bun` ou `npm` para instalar todas as dependências do projeto definidas no `package.json`.
+## 📦 Instalação
+
 ```bash
+# Clone o repositório
+git clone https://github.com/ER1CK122/back-end-hohl.git
+
+# Entre no diretório
+cd back-end-hohl
+
+# Instale as dependências
 bun install
-```
-2. **Configurar Variáveis de Ambiente** : Verifique se o arquivo `.env` está corretamente configurado com suas credenciais.
-3. **Iniciar o Servidor** : Execute o comando `bun run dev` para iniciar o servidor.
-```bash
-bun run dev
-```
-4. **Testar a API** : Use uma ferramenta como Insomnia ou Postman para testar a API, será necessario adicinar a chave de api no Headers da consulta.
-```bash
-'x-api-key': '7b86595c-6c4a-48b6-a407-edf2a15bdf63'
+
+# Configure as variáveis de ambiente
+cp .env.example .env
 ```
 
-Este projeto traz uma solução eficaz e segura para gerenciamento de solicitações recebidas via formulários, garantindo que as informações dos usuários sejam processadas de maneira eficiente, segura e automatizada.
+## ⚙️ Variáveis de Ambiente
+
+```env
+# Supabase
+SUPABASE_URL="sua_url_supabase"
+SUPABASE_KEY="sua_chave_supabase"
+
+# Email
+EMAIL_USER="seu_email"
+EMAIL_PASSWORD="sua_senha_app"
+
+# API
+PORT=3333
+```
+
+## 🔨 Uso
+
+```bash
+# Desenvolvimento
+bun run dev
+
+# Build
+bun run build
+
+# Produção
+bun run start
+```
+
+## 📡 API Endpoints
+
+### Health Check
+```http
+GET /health
+
+Response:
+{
+  "status": "healthy",
+  "timestamp": "2024-03-14T12:00:00.000Z",
+  "uptime": 123.45,
+  "environment": "production"
+}
+```
+
+### Enviar Formulário
+```http
+POST /forms
+
+Header:
+x-api-key: sua_api_key
+
+Body:
+{
+  "created_at": "string",
+  "name": "string",
+  "email": "string",
+  "phone": "string",
+  "mensage": "string"
+}
+```
+
+## 🚢 Deploy
+
+O projeto está configurado para deploy automático no Railway.app através do arquivo `railway.toml`.
+
+```toml
+[build]
+builder = "nixpacks"
+buildCommand = "bun run build"
+
+[deploy]
+startCommand = "bun run start"
+healthcheckPath = "/"
+```
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie sua branch (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add: nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👤 Autor
+
+**Erick Nunes**
+- LinkedIn: [@Erck-Nunes](https://www.linkedin.com/in/erck-nunes/)
+- Github: [@ER1CK122](https://github.com/ER1CK122)
+
+## 🙏 Agradecimentos
+
+- [Elysia.js](https://elysiajs.com/) pela excelente documentação
+- [Supabase](https://supabase.com/) pelo serviço incrível
+- [Railway](https://railway.app/) pela plataforma de deploy
+
+---
+
+<div align="center">
+Feito com ❤️ por Erick Nunes
+</div>
