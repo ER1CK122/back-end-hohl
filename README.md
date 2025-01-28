@@ -30,6 +30,11 @@ API REST desenvolvida para gerenciar formulários de contato da Contabilidade Ho
 - ✅ Autenticação via API Key
 - ✅ CORS configurado
 - ✅ Rotas protegidas
+- ✅ Rate Limiting com:
+  - Limite de 100 requisições por minuto
+  - Detecção inteligente de IP
+  - Headers informativos
+  - Limpeza automática de cache
 
 ### Validação
 - ✅ Validação de dados com TypeBox
@@ -163,6 +168,25 @@ x-api-key: 7b86595c-6c4a-48b6-a407-edf2a15bdf63
 }
 ```
 
+### Rate Limit Headers
+```http
+# Response Headers
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 99
+X-RateLimit-Reset: 1679944800000
+Retry-After: 30 # (quando próximo do limite)
+```
+
+### Erros de Rate Limit
+```http
+# Response 429 (Too Many Requests)
+{
+  "error": "Too many requests",
+  "message": "Por favor, aguarde antes de fazer mais requisições",
+  "retryAfter": 30
+}
+```
+
 ## ✅ Validações
 
 ### Campos Obrigatórios
@@ -184,6 +208,7 @@ x-api-key: 7b86595c-6c4a-48b6-a407-edf2a15bdf63
 
 - **400**: Erro de validação dos dados
 - **401**: API Key inválida ou não fornecida
+- **429**: Limite de requisições excedido
 - **500**: Erro interno do servidor
 
 ## 👤 Autor

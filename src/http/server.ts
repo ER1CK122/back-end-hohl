@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import { checkServices } from "../utils/healthCheck";
 import { handleFormSubmission } from "../controllers/formController";
 import { authenticationApiKey } from "../middleware/authenticationApiKey";
+import { createRateLimit } from '../middleware/rateLimit';
 
 config(); // Carrega as variáveis de ambiente
 
@@ -17,6 +18,12 @@ const app = new Elysia();
 
 // Adiciona CORS globalmente
 app.use(cors());
+
+// Configuração do rate limit: 100 requisições por minuto
+const rateLimit = createRateLimit({
+  max: 100,
+  windowMs: 60 * 1000 // 1 minuto
+});
 
 // Rota pública de healthcheck
 app.get('/health', async ({ set }) => {
@@ -32,6 +39,7 @@ app.get('/health', async ({ set }) => {
 // Grupo de rotas protegidas
 const protectedRoutes = new Elysia()
   .use(authenticationApiKey)
+  .use(rateLimit)  // Adiciona rate limit
   .post('/forms', handleFormSubmission);
 
 // Adiciona as rotas protegidas sob o prefixo /api
