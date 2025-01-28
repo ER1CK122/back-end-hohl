@@ -13,31 +13,39 @@
 - [Sobre](#-sobre)
 - [Funcionalidades](#-funcionalidades)
 - [Stack Utilizada](#-stack-utilizada)
-- [Rodando Localmente](#-rodando-localmente)
-- [Variáveis de Ambiente](#-variáveis-de-ambiente)
-- [Documentação da API](#-documentação-da-api)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Instalação](#-instalação)
+- [Configuração](#-configuração)
+- [API Endpoints](#-api-endpoints)
+- [Validações](#-validações)
+- [Tratamento de Erros](#-tratamento-de-erros)
 - [Autor](#-autor)
 
 ## 💡 Sobre
+API REST desenvolvida para gerenciar formulários de contato da Contabilidade Hohl. O sistema oferece uma solução completa para coleta, armazenamento e notificação de formulários, com foco em segurança, validação e eficiência.
 
-API REST desenvolvida para gerenciar formulários de contato da Contabilidade Hohl. O sistema oferece uma solução completa para coleta, armazenamento e notificação de formulários, com foco em segurança e eficiência.
-
-## 🎯 Funcionalidades
+## ✨ Funcionalidades
 
 ### Segurança
 - ✅ Autenticação via API Key
 - ✅ CORS configurado
 - ✅ Rotas protegidas
 
+### Validação
+- ✅ Validação de dados com TypeBox
+- ✅ Mensagens de erro personalizadas
+- ✅ Validação de formato de email e telefone
+
 ### Dados
-- ✅ Persistência automática no Supabase
-- ✅ Validação de dados
-- ✅ Histórico de submissões
+- ✅ Persistência no Supabase
+- ✅ Tratamento de erros robusto
+- ✅ Logs detalhados
 
 ### Notificações
 - ✅ Email automático para cliente
 - ✅ Email de notificação para administrador
 - ✅ Templates personalizados
+- ✅ Envio paralelo de emails para aumentar a performance
 
 ### Monitoramento
 - ✅ Health check
@@ -50,6 +58,7 @@ API REST desenvolvida para gerenciar formulários de contato da Contabilidade Ho
 - [Bun.js](https://bun.sh/) - Runtime JavaScript de alta performance
 - [Elysia.js](https://elysiajs.com/) - Framework web minimalista e tipado
 - [TypeScript](https://www.typescriptlang.org/) - Superset JavaScript com tipagem
+- [TypeBox](https://github.com/sinclairzx81/typebox) - Sistema de validação JSON Schema
 
 ### Banco de Dados
 - [Supabase](https://supabase.com/) - Plataforma de banco de dados PostgreSQL
@@ -57,7 +66,18 @@ API REST desenvolvida para gerenciar formulários de contato da Contabilidade Ho
 ### Email
 - [Nodemailer](https://nodemailer.com/) - Módulo para envio de emails
 
-## 🚀 Rodando Localmente
+## 📁 Estrutura do Projeto
+```
+src/
+├── controllers/    # Controladores da aplicação
+├── http/          # Configuração do servidor
+├── middleware/    # Middlewares (auth, etc)
+├── types/         # Definições de tipos
+├── utils/         # Utilitários
+└── validators/    # Validação de dados
+```
+
+## 🚀 Instalação
 
 ```bash
 # Clone o projeto
@@ -69,14 +89,11 @@ cd back-end-hohl
 # Instale as dependências
 bun install
 
-# Copie o arquivo de ambiente
+# Configure as variáveis de ambiente
 cp .env.example .env
-
-# Inicie o servidor
-bun run dev
 ```
 
-## 🔐 Variáveis de Ambiente
+## ⚙️ Configuração
 
 ```env
 # Supabase - Configurações do banco de dados
@@ -92,7 +109,7 @@ PORT=3333
 NODE_ENV=development
 ```
 
-## 📚 Documentação da API
+## 📚 API Endpoints
 
 ### Health Check
 ```http
@@ -106,8 +123,7 @@ Content-Type: application/json
   "services": {
     "database": "online",
     "email": "online"
-  },
-  "version": "1.0.0"
+  }
 }
 ```
 
@@ -130,27 +146,45 @@ x-api-key: 7b86595c-6c4a-48b6-a407-edf2a15bdf63
   "success": "Formulário enviado com sucesso!"
 }
 
+# Response 400 (Erro de Validação)
+{
+  "error": "Dados inválidos",
+  "details": [
+    {
+      "field": "email",
+      "message": "Email inválido"
+    }
+  ]
+}
+
 # Response 401
 {
   "error": "API Key não fornecida"
 }
 ```
 
-## 🔄 Scripts Disponíveis
+## ✅ Validações
 
-```bash
-# Desenvolvimento com hot-reload
-bun run dev
+### Campos Obrigatórios
+- **name**: Nome do cliente
+  - Mínimo: 3 caracteres
+  - Máximo: 100 caracteres
+  
+- **email**: Email válido
+  - Formato: usuario@dominio.com
+  
+- **phone**: Telefone
+  - Formato: (99) 99999-9999
+  
+- **mensage**: Mensagem
+  - Mínimo: 10 caracteres
+  - Máximo: 1000 caracteres
 
-# Build para produção
-bun run build
+## ❌ Tratamento de Erros
 
-# Iniciar em produção
-bun run start
-
-# Rodar testes
-bun run test
-```
+- **400**: Erro de validação dos dados
+- **401**: API Key inválida ou não fornecida
+- **500**: Erro interno do servidor
 
 ## 👤 Autor
 
