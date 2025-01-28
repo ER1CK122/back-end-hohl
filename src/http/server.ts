@@ -14,8 +14,8 @@ export { supabase };
 // Cria uma nova instância do Elysia sem autenticação para o healthcheck
 const app = new Elysia()
   .use(cors())
-  // Healthcheck simples e síncrono
-  .get('/health', () => ({ status: 'ok' }))
+  // Rota raiz simples sem nenhuma lógica
+  .get('/', () => 'OK')
   // Aplica autenticação apenas para as rotas que precisam
   .group('/api', app => app
     .use(authenticationApiKey)

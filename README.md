@@ -102,12 +102,9 @@ bun run start
 
 ### Health Check
 ```http
-GET /health
+GET /
 
-Response:
-{
-  "status": "ok"
-}
+Response: "OK"
 ```
 
 ### Enviar Formulário
