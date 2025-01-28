@@ -11,9 +11,9 @@ const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KE
 
 export { supabase };
 
+// Cria uma nova instância do Elysia sem autenticação para o healthcheck
 const app = new Elysia()
   .use(cors())
-  .use(authenticationApiKey)
   .get('/health', () => {
     return {
       status: 'healthy',
@@ -22,7 +22,11 @@ const app = new Elysia()
       environment: process.env.NODE_ENV
     }
   })
-  .post('/forms', handleFormSubmission)
+  // Aplica autenticação apenas para as rotas que precisam
+  .group('/api', app => app
+    .use(authenticationApiKey)
+    .post('/forms', handleFormSubmission)
+  )
   .listen(process.env.PORT || 3333, () => {
     console.log(`🚀 Servidor rodando na porta ${process.env.PORT || 3333}`);
   });
