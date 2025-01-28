@@ -4,4 +4,4 @@ buildCommand = "bun run build"
 
 [deploy]
 startCommand = "bun run start"
-healthcheckPath = "/" 
+healthcheckPath = "/health" 

@@ -102,9 +102,36 @@ bun run start
 
 ### Health Check
 ```http
-GET /
+GET /health
 
-Response: "OK"
+Response 200 (application/json):
+{
+  "status": "healthy",
+  "timestamp": "2024-03-14T12:00:00.000Z",
+  "services": {
+    "api": "healthy",
+    "database": "healthy",
+    "version": "1.0.0"
+  },
+  "uptime": 123.45,
+  "environment": "production",
+  "memory": {
+    "used": 45.12,
+    "total": 128.00
+  }
+}
+
+Response 503 (application/json):
+{
+  "status": "unhealthy",
+  "timestamp": "2024-03-14T12:00:00.000Z",
+  "services": {
+    "api": "healthy",
+    "database": "unhealthy",
+    "version": "1.0.0"
+  },
+  "error": "Database connection failed"
+}
 ```
 
 ### Enviar Formulário
@@ -134,7 +161,7 @@ buildCommand = "bun run build"
 
 [deploy]
 startCommand = "bun run start"
-healthcheckPath = "/"
+healthcheckPath = "/health"
 ```
 
 ## 🤝 Contribuição

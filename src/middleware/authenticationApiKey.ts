@@ -3,6 +3,9 @@ import { supabase } from '../http/server';
 
 export const authenticationApiKey = new Elysia()
   .onRequest(async ({ request, set }) => {
+    // Ignora a verificação para rotas não protegidas
+    if (request.url.endsWith('/')) return;
+
     try {   
       const apiKey = request.headers.get('x-api-key');
       
