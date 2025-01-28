@@ -1,23 +1,63 @@
 import { type Context } from 'elysia';
 import { supabase } from '../http/server';
+import { type ApiError } from '../types/errors';
 import { sendEmail } from '../utils/emailService';
-import type { FormData } from '../types/formData';
+import { validateForm } from '../validators/validateForm';
+import { type Static } from '@sinclair/typebox';
+import { formSchema } from '../validators/formValidator';
 
-export const handleFormSubmission = async ({ body }: Context<{ body: FormData }>) => {
+type FormData = Static<typeof formSchema>;
+
+export const handleFormSubmission = async ({ body, set }: Context<{ body: FormData }>) => {
   try {
-    const data = body;
+    // Validar os dados recebidos
+    const validation = validateForm(body);
+    if (!validation.isValid) {
+      set.status = 400;
+      console.error('Erro de validação:', { body, errors: validation.errors });
+      return { 
+        error: "Dados inválidos", 
+        details: validation.errors
+      };
+    }
 
     // Inserir os dados no supabase
-    const { error } = await supabase.from('forms').insert(data);
+    const { error: dbError } = await supabase.from('forms').insert(body);
 
-    if (error) throw error;
+    if (dbError) {
+      console.error('Erro ao inserir no banco:', dbError);
+      set.status = 500;
+      throw new Error('Erro ao salvar os dados');
+    }
 
-    // Envia emails
-    await sendEmail(data.email, 'Confirmação de envio', 'Obrigado por entrar em contato conosco!');
-    await sendEmail('ercknunes53@gmail.com', 'Novo Formulário de Cliente', `Nome: ${data.name}\nEmail: ${data.email}\nTelefone: ${data.phone}\nMensagem: ${data.mensage}`);
+    try {
+      // Envia emails
+      await Promise.all([
+        sendEmail(
+          body.email, 
+          'Confirmação de envio', 
+          'Obrigado por entrar em contato conosco!'
+        ),
+        sendEmail(
+          'ercknunes53@gmail.com', 
+          'Novo Formulário de Cliente', 
+          `Nome: ${body.name}\nEmail: ${body.email}\nTelefone: ${body.phone}\nMensagem: ${body.mensage}`
+        )
+      ]);
+    } catch (emailError) {
+      console.error('Erro ao enviar emails:', emailError);
+      // Não retornamos erro ao usuário pois os dados já foram salvos
+    }
     
     return { success: "Formulário enviado com sucesso!" };
   } catch (error) {
-    return { error: "Erro ao processar o formulário." };
+    const apiError = error as ApiError;
+    console.error('Erro não tratado:', apiError);
+    set.status = apiError.status || 500;
+    
+    return { 
+      error: "Erro ao processar o formulário.",
+      message: process.env.NODE_ENV === 'development' ? apiError.message : undefined
+    };
   }
 }
