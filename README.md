@@ -1,63 +1,66 @@
-# API de Gerenciamento de Formulários - Contabilidade Hohl
+# 📬 API de Formulários - Contabilidade Hohl
 
 <div align="center">
 
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Bun](https://img.shields.io/badge/Bun-%23000000.svg?style=for-the-badge&logo=bun&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-[![Railway](https://img.shields.io/badge/Railway-%23000000.svg?style=for-the-badge&logo=railway&logoColor=white)](https://railway.app/)
+![Elysia](https://img.shields.io/badge/Elysia-0B0B0B?style=for-the-badge&logo=elysia&logoColor=white)
 
 </div>
 
-## 📋 Sumário
-- [Descrição](#-descrição)
+## 📑 Índice
+- [Sobre](#-sobre)
 - [Funcionalidades](#-funcionalidades)
-- [Tecnologias](#-tecnologias)
-- [Arquitetura](#-arquitetura)
-- [Instalação](#-instalação)
-- [Uso](#-uso)
-- [API Endpoints](#-api-endpoints)
-- [Deploy](#-deploy)
-- [Contribuição](#-contribuição)
-- [Licença](#-licença)
+- [Stack Utilizada](#-stack-utilizada)
+- [Rodando Localmente](#-rodando-localmente)
+- [Variáveis de Ambiente](#-variáveis-de-ambiente)
+- [Documentação da API](#-documentação-da-api)
+- [Autor](#-autor)
 
-## 📝 Descrição
+## 💡 Sobre
 
-API REST desenvolvida com Elysia.js e TypeScript para gerenciamento eficiente de formulários de contato. Integrada com Supabase para persistência de dados e sistema de notificações por email.
+API REST desenvolvida para gerenciar formulários de contato da Contabilidade Hohl. O sistema oferece uma solução completa para coleta, armazenamento e notificação de formulários, com foco em segurança e eficiência.
 
-## ✨ Funcionalidades
+## 🎯 Funcionalidades
 
+### Segurança
 - ✅ Autenticação via API Key
-- ✅ Validação de dados de entrada
-- ✅ Persistência no Supabase
-- ✅ Notificações por email automáticas
-- ✅ Rate limiting
-- ✅ Logs estruturados
-- ✅ Healthcheck endpoint
+- ✅ CORS configurado
+- ✅ Rotas protegidas
 
-## 🚀 Tecnologias
+### Dados
+- ✅ Persistência automática no Supabase
+- ✅ Validação de dados
+- ✅ Histórico de submissões
 
-- **Runtime:** [Bun.js](https://bun.sh/)
-- **Framework:** [Elysia.js](https://elysiajs.com/)
-- **Banco de Dados:** [Supabase](https://supabase.com/)
-- **Email:** [Nodemailer](https://nodemailer.com/)
-- **Deploy:** [Railway](https://railway.app/)
+### Notificações
+- ✅ Email automático para cliente
+- ✅ Email de notificação para administrador
+- ✅ Templates personalizados
 
-## 🏗 Arquitetura
+### Monitoramento
+- ✅ Health check
+- ✅ Status dos serviços
+- ✅ Métricas de performance
 
-```
-src/
-├── controllers/     # Controladores da aplicação
-├── middleware/      # Middlewares (auth, rate limit)
-├── types/          # Definições de tipos TypeScript
-├── utils/          # Utilitários (email, logger)
-└── http/           # Configuração do servidor e rotas
-```
+## 🛠 Stack Utilizada
 
-## 📦 Instalação
+### Core
+- [Bun.js](https://bun.sh/) - Runtime JavaScript de alta performance
+- [Elysia.js](https://elysiajs.com/) - Framework web minimalista e tipado
+- [TypeScript](https://www.typescriptlang.org/) - Superset JavaScript com tipagem
+
+### Banco de Dados
+- [Supabase](https://supabase.com/) - Plataforma de banco de dados PostgreSQL
+
+### Email
+- [Nodemailer](https://nodemailer.com/) - Módulo para envio de emails
+
+## 🚀 Rodando Localmente
 
 ```bash
-# Clone o repositório
+# Clone o projeto
 git clone https://github.com/ER1CK122/back-end-hohl.git
 
 # Entre no diretório
@@ -66,145 +69,97 @@ cd back-end-hohl
 # Instale as dependências
 bun install
 
-# Configure as variáveis de ambiente
+# Copie o arquivo de ambiente
 cp .env.example .env
+
+# Inicie o servidor
+bun run dev
 ```
 
-## ⚙️ Variáveis de Ambiente
+## 🔐 Variáveis de Ambiente
 
 ```env
-# Supabase
+# Supabase - Configurações do banco de dados
 SUPABASE_URL="sua_url_supabase"
 SUPABASE_KEY="sua_chave_supabase"
 
-# Email
+# Email - Configurações SMTP
 EMAIL_USER="seu_email"
 EMAIL_PASSWORD="sua_senha_app"
 
-# API
+# API - Configurações do servidor
 PORT=3333
+NODE_ENV=development
 ```
 
-## 🔨 Uso
+## 📚 Documentação da API
 
-```bash
-# Desenvolvimento
-bun run dev
-
-# Build
-bun run build
-
-# Produção
-bun run start
-```
-
-## 📡 API Endpoints
-
-### Rotas Públicas
-
-#### Health Check
+### Health Check
 ```http
 GET /health
+Content-Type: application/json
 
-Response 200 (application/json):
+# Response 200
 {
   "status": "healthy",
   "timestamp": "2024-03-14T12:00:00.000Z",
   "services": {
-    "api": "healthy",
-    "database": "healthy",
-    "version": "1.0.0"
+    "database": "online",
+    "email": "online"
   },
-  "uptime": 123.45,
-  "environment": "production",
-  "memory": {
-    "used": 45.12,
-    "total": 128.00
-  }
-}
-
-Response 503 (application/json):
-{
-  "status": "unhealthy",
-  "timestamp": "2024-03-14T12:00:00.000Z",
-  "services": {
-    "api": "healthy",
-    "database": "unhealthy",
-    "version": "1.0.0"
-  },
-  "error": "Database connection failed"
+  "version": "1.0.0"
 }
 ```
 
-### Rotas Protegidas
-> Todas as rotas protegidas requerem autenticação via API Key no header da requisição.
-
-#### Enviar Formulário
+### Enviar Formulário
 ```http
 POST /api/forms
+Content-Type: application/json
+x-api-key: 7b86595c-6c4a-48b6-a407-edf2a15bdf63
 
-Header:
-x-api-key: sua_api_key
-
-Body:
+# Request Body
 {
-  "name": "string",
-  "email": "string",
-  "phone": "string",
-  "mensage": "string"
+  "name": "Usuario Teste",
+  "email": "usuTeste@gmail.com",
+  "phone": "(11) 99999-9999",
+  "mensage": "Gostaria de mais informações sobre os serviços."
 }
 
-Response 200 (application/json):
+# Response 200
 {
   "success": "Formulário enviado com sucesso!"
 }
 
-Response 401 (application/json):
+# Response 401
 {
   "error": "API Key não fornecida"
 }
 ```
 
-## 🚢 Deploy
+## 🔄 Scripts Disponíveis
 
-O projeto está configurado para deploy automático no Railway.app através do arquivo `railway.toml`.
+```bash
+# Desenvolvimento com hot-reload
+bun run dev
 
-```toml
-[build]
-builder = "nixpacks"
-buildCommand = "bun run build"
+# Build para produção
+bun run build
 
-[deploy]
-startCommand = "bun run start"
-healthcheckPath = "/health"
+# Iniciar em produção
+bun run start
+
+# Rodar testes
+bun run test
 ```
-
-## 🤝 Contribuição
-
-1. Fork o projeto
-2. Crie sua branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add: nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## 👤 Autor
 
-**Erick Nunes**
-- LinkedIn: [@Erck-Nunes](https://www.linkedin.com/in/erck-nunes/)
-- Github: [@ER1CK122](https://github.com/ER1CK122)
-
-## 🙏 Agradecimentos
-
-- [Elysia.js](https://elysiajs.com/) pela excelente documentação
-- [Supabase](https://supabase.com/) pelo serviço incrível
-- [Railway](https://railway.app/) pela plataforma de deploy
+### Erick Nunes
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/erck-nunes/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ER1CK122)
 
 ---
 
 <div align="center">
-Feito com ❤️ por Erick Nunes
+Desenvolvido com 💙 por Erick Nunes
 </div>
