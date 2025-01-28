@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun --watch src/http/server.ts",
-    "build": "bun build ./src/http/server.ts --outdir ./dist",
-    "start": "NODE_ENV=production bun src/http/server.ts",
+    "build": "bun build ./src/http/server.ts --outdir ./dist --target node",
+    "start": "NODE_ENV=production bun ./dist/server.js",
     "test": "bun test"
   },
   "devDependencies": {

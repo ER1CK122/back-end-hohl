@@ -14,7 +14,8 @@ export { supabase };
 const app = new Elysia()
   .use(cors())
   .use(authenticationApiKey)
+  .get('/', () => ({ status: 'ok' }))
   .post('/forms', handleFormSubmission)
-  .listen(3333, () => {
+  .listen(process.env.PORT || 3333, () => {
     console.log("Está rodando...");
   });
