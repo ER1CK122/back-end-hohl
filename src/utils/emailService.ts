@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { logger } from './logger';
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -13,8 +14,10 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export const sendEmail = async (to: string, subject: string, text: string) => {
+export async function sendEmail(to: string, subject: string, text: string) {
   try {
+    logger.debug({ to, subject }, 'Iniciando envio de email');
+
     const mailOptions = { 
       from: process.env.EMAIL_USER,
       to,
@@ -23,8 +26,14 @@ export const sendEmail = async (to: string, subject: string, text: string) => {
     }
     
     await transporter.sendMail(mailOptions);
+
+    logger.info({ to, subject }, 'Email enviado com sucesso');
   } catch (error) {
-    console.error('Erro ao enviar email:', error);
+    logger.error({ 
+      error,
+      to,
+      subject 
+    }, 'Erro ao enviar email');
     throw error;
   }
 }

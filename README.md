@@ -36,6 +36,12 @@ API REST desenvolvida para gerenciar formulários de contato da Contabilidade Ho
   - Headers informativos
   - Limpeza automática de cache
 
+### Cache
+- ✅ Cache em memória para formulários recentes
+- ✅ Expiração automática após 5 minutos
+- ✅ Acesso rápido via chave única
+- ✅ Organização com prefixos
+
 ### Validação
 - ✅ Validação de dados com TypeBox
 - ✅ Mensagens de erro personalizadas
@@ -56,6 +62,20 @@ API REST desenvolvida para gerenciar formulários de contato da Contabilidade Ho
 - ✅ Health check
 - ✅ Status dos serviços
 - ✅ Métricas de performance
+- ✅ Métricas Prometheus
+- ✅ Tempo de resposta
+- ✅ Taxa de sucesso/erro
+- ✅ Monitoramento de rate limit
+- ✅ Documentação Swagger/OpenAPI
+- ✅ Interface interativa
+- ✅ Documentação automática
+- ✅ Schemas TypeScript
+
+### Testes
+- ✅ Testes unitários para validação
+- ✅ Cobertura de casos de erro
+- ✅ Testes agrupados por campo
+- ✅ Validação de campos obrigatórios
 
 ## 🛠 Stack Utilizada
 
@@ -70,6 +90,29 @@ API REST desenvolvida para gerenciar formulários de contato da Contabilidade Ho
 
 ### Email
 - [Nodemailer](https://nodemailer.com/) - Módulo para envio de emails
+
+### Cache
+- Cache em memória
+- TTL (Time To Live)
+- Prefixos para organização
+- Limpeza automática
+
+### Testes
+- Bun Test Runner
+- Testes unitários
+- Assertions
+- Grupos de teste
+
+### Monitoramento
+- [Pino](https://getpino.io/) - Logger performático
+- [Prom-client](https://github.com/siimon/prom-client) - Cliente Prometheus
+- Métricas em tempo real
+- Formato Prometheus
+
+### Documentação
+- [Swagger UI](https://swagger.io/tools/swagger-ui/) - Interface interativa
+- OpenAPI 3.0
+- Documentação automática via TypeScript
 
 ## 📁 Estrutura do Projeto
 ```
@@ -132,6 +175,29 @@ Content-Type: application/json
 }
 ```
 
+### Consultar Formulário em Cache
+```http
+GET /api/forms/:cacheKey
+Content-Type: application/json
+x-api-key: sua_api_key
+
+# Response 200
+{
+  "formData": {
+    "name": "Usuario Teste",
+    "email": "teste@email.com",
+    "phone": "(11) 99999-9999",
+    "mensage": "Mensagem teste"
+  },
+  "submittedAt": "2024-03-14T12:00:00.000Z"
+}
+
+# Response 404
+{
+  "error": "Formulário não encontrado no cache"
+}
+```
+
 ### Enviar Formulário
 ```http
 POST /api/forms
@@ -148,7 +214,8 @@ x-api-key: 7b86595c-6c4a-48b6-a407-edf2a15bdf63
 
 # Response 200
 {
-  "success": "Formulário enviado com sucesso!"
+  "success": "Formulário enviado com sucesso!",
+  "cacheKey": "form:email@teste.com:1234567890"
 }
 
 # Response 400 (Erro de Validação)
@@ -187,6 +254,33 @@ Retry-After: 30 # (quando próximo do limite)
 }
 ```
 
+### Métricas
+```http
+GET /metrics
+Content-Type: text/plain
+
+# Response 200
+# HELP form_submissions_total Total de formulários submetidos
+form_submissions_total{status="success"} 42
+form_submissions_total{status="error"} 5
+
+# HELP response_time_seconds Tempo de resposta em segundos
+response_time_seconds_bucket{route="/api/forms",le="0.1"} 100
+response_time_seconds_bucket{route="/api/forms",le="0.5"} 150
+
+# HELP rate_limit_hits_total Número de vezes que o rate limit foi atingido
+rate_limit_hits_total{ip="127.0.0.1"} 3
+```
+
+### Documentação
+```http
+# Interface Swagger
+GET /swagger
+
+# Especificação OpenAPI
+GET /swagger/json
+```
+
 ## ✅ Validações
 
 ### Campos Obrigatórios
@@ -210,6 +304,34 @@ Retry-After: 30 # (quando próximo do limite)
 - **401**: API Key inválida ou não fornecida
 - **429**: Limite de requisições excedido
 - **500**: Erro interno do servidor
+
+## Scripts Disponíveis
+
+```bash
+# Rodar testes
+bun test
+
+# Rodar testes com watch mode
+bun test --watch
+
+# Rodar testes com coverage
+bun test --coverage
+```
+
+## 📊 Métricas Disponíveis
+
+### Formulários
+- **form_submissions_total**: Total de formulários enviados
+  - Labels: status (success/error)
+
+### Performance
+- **response_time_seconds**: Tempo de resposta das rotas
+  - Labels: route
+  - Buckets: 0.1s, 0.5s, 1s, 2s, 5s
+
+### Rate Limit
+- **rate_limit_hits_total**: Contagem de hits no rate limit
+  - Labels: ip
 
 ## 👤 Autor
 

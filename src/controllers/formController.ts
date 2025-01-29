@@ -5,16 +5,27 @@ import { sendEmail } from '../utils/emailService';
 import { validateForm } from '../validators/validateForm';
 import { type Static } from '@sinclair/typebox';
 import { formSchema } from '../validators/formValidator';
+import { formCache } from '../utils/cache';
+import { logger } from '../utils/logger';
+import { metrics } from '../utils/metrics';
 
 type FormData = Static<typeof formSchema>;
 
 export const handleFormSubmission = async ({ body, set }: Context<{ body: FormData }>) => {
+  const startTime = performance.now();
+  
   try {
+    logger.info({ body }, 'Novo formulário recebido');
+
+    // Gera uma chave única para o cache baseada nos dados do form
+    const cacheKey = `${body.email}:${Date.now()}`;
+
     // Validar os dados recebidos
     const validation = validateForm(body);
     if (!validation.isValid) {
+      logger.warn({ body, errors: validation.errors }, 'Validação falhou');
+      metrics.formSubmitted('error');
       set.status = 400;
-      console.error('Erro de validação:', { body, errors: validation.errors });
       return { 
         error: "Dados inválidos", 
         details: validation.errors
@@ -25,10 +36,19 @@ export const handleFormSubmission = async ({ body, set }: Context<{ body: FormDa
     const { error: dbError } = await supabase.from('forms').insert(body);
 
     if (dbError) {
-      console.error('Erro ao inserir no banco:', dbError);
+      logger.error({ error: dbError }, 'Erro ao inserir no banco');
+      metrics.formSubmitted('error');
       set.status = 500;
       throw new Error('Erro ao salvar os dados');
     }
+
+    // Guarda no cache para consultas futuras
+    formCache.set(cacheKey, {
+      formData: body,
+      submittedAt: new Date().toISOString()
+    });
+
+    logger.info({ email: body.email }, 'Formulário salvo com sucesso');
 
     try {
       // Envia emails
@@ -49,15 +69,39 @@ export const handleFormSubmission = async ({ body, set }: Context<{ body: FormDa
       // Não retornamos erro ao usuário pois os dados já foram salvos
     }
     
-    return { success: "Formulário enviado com sucesso!" };
-  } catch (error) {
-    const apiError = error as ApiError;
-    console.error('Erro não tratado:', apiError);
-    set.status = apiError.status || 500;
+    metrics.formSubmitted('success');
     
     return { 
-      error: "Erro ao processar o formulário.",
+      success: "Formulário enviado com sucesso!",
+      cacheKey // Retorna a chave do cache para referência
+    };
+  } catch (error) {
+    const apiError = error as ApiError;
+    logger.error({ 
+      error: apiError,
+      stack: apiError.stack
+    }, 'Erro não tratado no processamento do formulário');
+    
+    set.status = apiError.status || 500;
+    return { 
+      error: "Erro ao processar o formulário",
       message: process.env.NODE_ENV === 'development' ? apiError.message : undefined
     };
+  } finally {
+    // Registra tempo de resposta
+    const timeInSeconds = (performance.now() - startTime) / 1000;
+    metrics.trackResponseTime('/api/forms', timeInSeconds);
   }
 }
+
+// Nova rota para consultar formulário pelo cache
+export const getFormFromCache = async ({ params, set }: Context) => {
+  const cachedForm = formCache.get(params.cacheKey);
+  
+  if (!cachedForm) {
+    set.status = 404;
+    return { error: "Formulário não encontrado no cache" };
+  }
+
+  return cachedForm;
+};
