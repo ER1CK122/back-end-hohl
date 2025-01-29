@@ -118,11 +118,33 @@ API REST desenvolvida para gerenciar formulários de contato da Contabilidade Ho
 ```
 src/
 ├── controllers/    # Controladores da aplicação
+│   └── index.ts  # Barrel file para controllers
 ├── http/          # Configuração do servidor
 ├── middleware/    # Middlewares (auth, etc)
+│   └── index.ts  # Barrel file para middlewares
 ├── types/         # Definições de tipos
+│   └── index.ts  # Barrel file para types
 ├── utils/         # Utilitários
+│   └── index.ts  # Barrel file para utils
 └── validators/    # Validação de dados
+    └── index.ts  # Barrel file para validators
+```
+
+### Organização do Código
+- Utilização de barrel files (index.ts) para melhor organização dos imports
+- Agrupamento de exportações relacionadas
+- Redução da complexidade de imports
+- Manutenção simplificada
+
+Exemplo de uso:
+```typescript
+// Antes
+import { logger } from '../utils/logger';
+import { metrics } from '../utils/metrics';
+import { sendEmail } from '../utils/emailService';
+
+// Depois - usando barrel files
+import { logger, metrics, sendEmail } from '../utils';
 ```
 
 ## 🚀 Instalação

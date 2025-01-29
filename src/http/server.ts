@@ -2,13 +2,11 @@ import Elysia from "elysia";
 import { config } from "dotenv";
 import cors from "@elysiajs/cors";
 import { createClient } from "@supabase/supabase-js";
-import { checkServices } from "../utils/healthCheck";
-import { createRateLimit } from '../middleware/rateLimit';
-import { authenticationApiKey } from "../middleware/authenticationApiKey";
-import { handleFormSubmission, getFormFromCache } from "../controllers/formController";
-import { logger } from '../utils/logger';
-import { metrics } from '../utils/metrics';
-import { swaggerConfig } from '../utils/swagger';
+
+// Imports agrupados por barrel files
+import { logger, metrics, swaggerConfig, checkServices } from '../utils';
+import { createRateLimit, authenticationApiKey } from '../middleware';
+import { handleFormSubmission, getFormFromCache } from '../controllers';
 
 config(); // Carrega as variáveis de ambiente
 
