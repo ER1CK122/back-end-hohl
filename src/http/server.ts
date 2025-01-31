@@ -14,6 +14,23 @@ const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KE
 
 export { supabase };
 
+// TODO: Criar arquivos separados para cada rota
+// TODO: Ajustar envio de emails para um usuario de teste usando o nodemailer.createTestAccount()
+// TODO: Ajustar o envio de emails para o usuario de teste
+// TODO: Verificar se com o nodemailer o projeto é válido para ir ao ar, ou utilizar outros produtos como resend.com
+// TODO: Melhorar o metodo de autenticação com o JWT e tentar utilizar cookie no back-end
+// TODO: Refatorar o codigo de cada arquivo separado para ter uma melhor organização
+// TODO: Restruturar as pastas do projeto
+// TODO: Trocar o Dotenv por env.ts que utiliza o zod para validar as variaveis de ambiente
+// TODO: Melhorar os retornos das rotas para o front-end
+// TODO: Melhorar o HelthCheck do servidor
+// TODO: Refatorar todos o loggers feitos com o pino
+// TODO: Verificar se é necessario Cache para esse projeto
+// TODO: Verificar os testes unitários
+// TODO: Refatorar todos os middlewares
+// TODO: Refatorar os controllers
+// TODO: Verificar se é possivel deixar o projeto mais simples
+
 // Cria uma instância base do Elysia
 export const app = new Elysia()
   .use(cors())

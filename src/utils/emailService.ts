@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 import { logger } from './logger';
 
+// const account = await nodemailer.createTestAccount();
+
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,

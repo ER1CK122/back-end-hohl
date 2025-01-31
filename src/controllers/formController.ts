@@ -1,13 +1,10 @@
-import { type Context } from 'elysia';
+import { type Context, type Static } from 'elysia';
 import { supabase } from '../http/server';
 import { type ApiError } from '../types';
 import { validateForm, formSchema } from '../validators';
-import { type Static } from '@sinclair/typebox';
 import { formCache, logger, metrics, sendEmail } from '../utils';
 
-type FormData = Static<typeof formSchema>;
-
-export const handleFormSubmission = async ({ body, set }: Context<{ body: FormData }>) => {
+export const handleFormSubmission = async ({ body, set }: Context <{ body: Static<typeof formSchema> }>) => {
   const startTime = performance.now();
   
   try {
