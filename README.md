@@ -355,11 +355,23 @@ bun test --coverage
 - **rate_limit_hits_total**: Contagem de hits no rate limit
   - Labels: ip
 
+## Contribuição
+
+1. Faça fork do projeto
+2. Crie sua feature branch (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
+
 ## 👤 Autor
 
 ### Erick Nunes
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/erck-nunes/)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ER1CK122)
+
+## Licença
+
+Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
 
 ---
 
